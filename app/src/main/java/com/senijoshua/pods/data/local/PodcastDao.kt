@@ -5,6 +5,9 @@ import androidx.room.Query
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Interface through which interactions with the Podcasts table occur.
+ */
 @Dao
 interface PodcastDao {
     @Upsert

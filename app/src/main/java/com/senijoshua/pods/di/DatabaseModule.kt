@@ -27,5 +27,5 @@ class DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideArticleDao(db: PodsDatabase): PodcastDao = db.podcastDao()
+    fun providePodcastDao(db: PodsDatabase): PodcastDao = db.podcastDao()
 }
