@@ -3,14 +3,14 @@ agp = "8.7.3"
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
-activityCompose = "1.9.3"
-composeBom = "2024.12.01"
+activityCompose = "1.10.0"
+composeBom = "2025.01.00"
 coil = "2.7.0"
 coroutines = "1.8.1"
 hilt = "2.50"
 hiltNavigation = "1.2.0"
 ksp = "2.0.0-1.0.23"
-kotlinxSerialization = "2.0.0"
+kotlinxSerialization = "2.0.21"
 kotlinxSerializationJson = "1.7.1"
 navigation = "2.8.5"
 retrofit = "2.11.0"
@@ -39,7 +39,6 @@ material3 = { group = "androidx.compose.material3", name = "material3", version.
 
 # Navigation Compose
 navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
-navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigation" }
 
 # Hilt
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
@@ -70,20 +69,23 @@ retrofit-kotlin-converter = { group = "com.squareup.retrofit2", name = "converte
 # Junit
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 
-# Hilt testing
+# Hilt
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
 
-# Coil testing
+# Coil
 coil-testing = { group = "io.coil-kt", name = "coil-test", version.ref = "coil" }
 
-# Room testing
+# Navigation
+navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigation" }
+
+# Room
 room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 
-# Kotlin Coroutines test
+# Kotlin Coroutines
 kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 
-# Compose UI test
+# Compose UI
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 

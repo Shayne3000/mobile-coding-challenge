@@ -27,6 +27,7 @@ val errorLight = Color(0xFFBA1A1A)
 val onErrorLight = Color(0xFFFFFFFF)
 
 //// Dark mode colors ////
+
 val primaryDark = Color(0xFF201A19)
 val onPrimaryDark = Color(0xFFE5E2E1)
 
