@@ -18,7 +18,7 @@ private const val BASE_URL = "https://listen-api-test.listennotes.com/api/v2/"
 
 @Module
 @InstallIn(SingletonComponent::class)
-class NetworkModule {
+object NetworkModule {
     @Provides
     @Singleton
     fun provideKotlinSerializer(): Json = Json {
