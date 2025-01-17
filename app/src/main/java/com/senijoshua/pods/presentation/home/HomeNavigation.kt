@@ -18,6 +18,8 @@ fun NavGraphBuilder.homeScreen(
     toDetailScreen: (String) -> Unit,
 ) {
     composable<HomeRoute> {
-        // TODO Add home screen composable
+        HomeScreen(onNavigateToDetail = { podcastId ->
+            toDetailScreen(podcastId)
+        })
     }
 }
