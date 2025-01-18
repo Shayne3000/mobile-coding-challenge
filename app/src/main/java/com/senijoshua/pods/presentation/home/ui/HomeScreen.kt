@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -26,6 +27,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -55,6 +57,12 @@ fun HomeScreen(
 
     HomeContent(
         uiState = uiState,
+        loadNextPage = {
+            vm.getPagedPodcasts()
+        },
+        refresh = {
+            vm.refreshPagedPodcasts()
+        },
         resetErrorState = {
             vm.onResetErrorState()
         },
@@ -62,12 +70,17 @@ fun HomeScreen(
             onNavigateToDetail(podcastId)
         }
     )
+
+    LaunchedEffect(Unit) {
+        vm.getPagedPodcasts()
+    }
 }
 
 @Composable
 fun HomeContent(
     modifier: Modifier = Modifier,
     uiState: HomeUiState,
+    loadNextPage: () -> Unit = {},
     refresh: () -> Unit = {},
     resetErrorState: () -> Unit = {},
     navigateToDetail: (String) -> Unit = {},
@@ -135,6 +148,10 @@ fun HomeContent(
                     HomePodcastList(
                         podcasts = uiState.podcasts,
                         isPaging = uiState.isPaging,
+                        hasPagedData = uiState.hasPagedData,
+                        loadNextPage = {
+                            loadNextPage()
+                        },
                         onPodcastItemClicked = { podcastId ->
                             navigateToDetail(podcastId)
                         })
@@ -182,8 +199,25 @@ fun HomePodcastList(
     modifier: Modifier = Modifier,
     podcasts: List<HomePodcast>,
     isPaging: Boolean,
+    hasPagedData: Boolean,
+    loadNextPage: () -> Unit = {},
     onPodcastItemClicked: (String) -> Unit = {},
 ) {
+    val listState = rememberLazyListState()
+
+    val hasScrolledNearEnd by remember {
+        derivedStateOf {
+            val lastVisibleItemIndex =
+                listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1
+            val totalItemsCount = listState.layoutInfo.totalItemsCount
+            lastVisibleItemIndex >= totalItemsCount - 2 && totalItemsCount > 0
+        }
+    }
+
+    if (hasScrolledNearEnd && !isPaging && hasPagedData) {
+        loadNextPage()
+    }
+
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(vertical = dimensionResource(id = R.dimen.padding_small)),

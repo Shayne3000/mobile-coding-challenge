@@ -1,18 +1,84 @@
 package com.senijoshua.pods.presentation.home.stateholder
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.senijoshua.pods.data.repository.PodcastRepository
 import com.senijoshua.pods.presentation.home.model.HomePodcast
+import com.senijoshua.pods.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(): ViewModel() {
+class HomeViewModel @Inject constructor(private val repository: PodcastRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+    private var page = Constants.INITIAL_PAGE
+
+    fun getPagedPodcasts() {
+        if (page > 1) {
+            _uiState.update { currentState ->
+                currentState.copy(isPaging = true)
+            }
+        }
+
+        viewModelScope.launch {
+            repository.getPodcasts(page).collectLatest { result ->
+                when {
+                    result.isSuccess -> {
+                        val data = result.getOrNull()!!
+                        processPodcastData(data)
+                    }
+
+                    result.isFailure -> {
+                        val error = result.exceptionOrNull()!!
+                        _uiState.update { currentState ->
+                            currentState.copy(
+                                isLoading = false,
+                                isPaging = false,
+                                isRefreshing = false,
+                                errorMessage = error.localizedMessage
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun processPodcastData(data: List<HomePodcast>) {
+        _uiState.update { currentState ->
+            val updatedPodcasts =
+                if (page == Constants.INITIAL_PAGE) data else currentState.podcasts + data
+
+            currentState.copy(
+                podcasts = updatedPodcasts,
+                isLoading = false,
+                isRefreshing = false,
+                isPaging = false,
+                hasPagedData = data.size == Constants.MAX_PODCASTS_PER_PAGE,
+                errorMessage = null
+            ).also {
+                if (it.hasPagedData) page++
+            }
+        }
+    }
+
+    fun refreshPagedPodcasts() {
+        page = Constants.INITIAL_PAGE
+        _uiState.update { currentState ->
+            currentState.copy(
+                isRefreshing = true,
+                hasPagedData = true,
+            )
+        }
+        getPagedPodcasts()
+    }
 
     fun onResetErrorState() {
         _uiState.update { currentState ->
