@@ -12,7 +12,7 @@ data class HomePodcast(
 )
 
 /**
- * Dummy list of HomePodcasts for preview and testing purposes.
+ * Dummy list of [HomePodcast] for preview and testing purposes.
  */
 val fakePodcastList = List(10) { index ->
     HomePodcast(
