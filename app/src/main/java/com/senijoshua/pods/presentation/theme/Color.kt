@@ -21,6 +21,7 @@ val onTertiaryContainerLight = Color(0xFFC6C6C7)
 
 // Screen background
 val backgroundLight = Color(0xFFFFFBFF)
+val onBackgroundLight = Color(0xFF201A19)
 
 // Error snack
 val errorLight = Color(0xFFBA1A1A)
@@ -40,6 +41,11 @@ val onSecondaryContainerDark = Color(0xFFFFFFFF)
 val onTertiaryContainerDark = Color(0xFF5D5F5F)
 
 val backgroundDark = Color(0xFF201A19)
+val onBackgroundDark = Color(0xFFEDE0DE)
 
 val errorDark = Color(0xFFFFB4AB)
 val onErrorDark = Color(0xFF690005)
+
+
+//// Agnostic ////
+val onSurfaceVariant = Color(0xFFDD2A4F)
