@@ -1,4 +1,4 @@
-package com.senijoshua.pods.presentation.home
+package com.senijoshua.pods.presentation.home.stateholder
 
 import androidx.lifecycle.ViewModel
 import com.senijoshua.pods.presentation.home.model.HomePodcast

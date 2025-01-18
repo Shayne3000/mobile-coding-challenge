@@ -14,12 +14,12 @@ data class HomePodcast(
 /**
  * Dummy list of HomePodcasts for preview and testing purposes.
  */
-val fakeArticleList = List(10) { index ->
+val fakePodcastList = List(10) { index ->
     HomePodcast(
         index.toString(),
         "Podcast $index",
         "Podcast $index image",
-        "Podcast $index publisher",
+        "PUBLISHER $index",
         index % 2 == 0,
     )
 }

@@ -1,7 +1,8 @@
-package com.senijoshua.pods.presentation.home
+package com.senijoshua.pods.presentation.home.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.senijoshua.pods.presentation.home.ui.HomeScreen
 import kotlinx.serialization.Serializable
 
 /**

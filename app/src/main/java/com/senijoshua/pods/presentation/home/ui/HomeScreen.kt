@@ -1,12 +1,17 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.senijoshua.pods.presentation.home
+package com.senijoshua.pods.presentation.home.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -35,6 +40,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.senijoshua.pods.R
 import com.senijoshua.pods.presentation.components.PodsEmptyScreen
 import com.senijoshua.pods.presentation.components.PodsProgressIndicator
+import com.senijoshua.pods.presentation.home.stateholder.HomeUiState
+import com.senijoshua.pods.presentation.home.stateholder.HomeViewModel
+import com.senijoshua.pods.presentation.home.model.HomePodcast
+import com.senijoshua.pods.presentation.home.model.fakePodcastList
 import com.senijoshua.pods.presentation.theme.PodsTheme
 
 @Composable
@@ -90,7 +99,9 @@ fun HomeContent(
         }
     }) { padding ->
         PullToRefreshBox(
-            modifier = modifier.fillMaxSize().padding(padding),
+            modifier = modifier
+                .fillMaxSize()
+                .padding(padding),
             isRefreshing = uiState.isRefreshing,
             state = pullToRefreshState,
             onRefresh = {
@@ -114,12 +125,19 @@ fun HomeContent(
                     .background(color = MaterialTheme.colorScheme.background)
             ) {
                 if (uiState.isLoading) {
-                    PodsProgressIndicator(modifier = modifier, size = dimensionResource(R.dimen.progress_size_large))
+                    PodsProgressIndicator(
+                        modifier = modifier,
+                        size = dimensionResource(R.dimen.progress_size_large)
+                    )
                 } else if (uiState.isRefreshing) {
                     RefreshText(modifier)
                 } else if (uiState.podcasts.isNotEmpty()) {
-                    // TODO Add list of podcasts and implement the home screen item with a divider for item decoration
-                    // TODO Then focus on implementing the loading and pagination sequence
+                    HomePodcastList(
+                        podcasts = uiState.podcasts,
+                        isPaging = uiState.isPaging,
+                        onPodcastItemClicked = { podcastId ->
+                            navigateToDetail(podcastId)
+                        })
                 } else {
                     PodsEmptyScreen(
                         modifier,
@@ -159,10 +177,44 @@ fun RefreshText(
     }
 }
 
+@Composable
+fun HomePodcastList(
+    modifier: Modifier = Modifier,
+    podcasts: List<HomePodcast>,
+    isPaging: Boolean,
+    onPodcastItemClicked: (String) -> Unit = {},
+) {
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = PaddingValues(vertical = dimensionResource(id = R.dimen.padding_small)),
+    ) {
+        items(items = podcasts, key = { podcast -> podcast.id }) { podcast ->
+            HomePodcastListItem(podcast = podcast, onClick = { podcastId ->
+                onPodcastItemClicked(podcastId)
+            })
+        }
+
+        if (isPaging) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(dimensionResource(R.dimen.padding_medium)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    PodsProgressIndicator(
+                        size = dimensionResource(R.dimen.progress_size_medium)
+                    )
+                }
+            }
+        }
+    }
+}
+
 @PreviewLightDark
 @Composable
-fun HomePreview() {
+private fun HomePreview() {
     PodsTheme {
-        HomeContent(uiState = HomeUiState())
+        HomeContent(uiState = HomeUiState(podcasts = fakePodcastList))
     }
 }

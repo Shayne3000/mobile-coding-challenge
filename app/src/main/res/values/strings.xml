@@ -3,6 +3,8 @@
     <!-- Home Screen -->
     <string name="home_title">Podcasts</string>
     <string name="refresh_text">Retuning your podcasts&#8230;</string>
+    <string name="podcast_item_thumbnail_content_desc">Podcast thumbnail</string>
+    <string name="favourited_podcast_item">Favourited</string>
     <!-- Empty screen -->
     <string name="empty_podcasts_content_desc">Empty list of podcasts</string>
     <string name="empty_podcasts_text">There are no podcasts at this time, check back in a bit.</string>

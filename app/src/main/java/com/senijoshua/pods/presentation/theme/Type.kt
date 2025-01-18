@@ -24,7 +24,7 @@ val Typography = Typography(
         lineHeight = 20.sp,
         letterSpacing = 0.25.sp
     ),
-    
+
     // Author and Favourited text with favourited having italics as its style and detail screen text
     bodyMedium = TextStyle(
         fontFamily = FontFamily.Default,

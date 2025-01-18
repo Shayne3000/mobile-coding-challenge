@@ -6,8 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.senijoshua.pods.presentation.detail.DetailRoute
 import com.senijoshua.pods.presentation.detail.detailScreen
-import com.senijoshua.pods.presentation.home.HomeRoute
-import com.senijoshua.pods.presentation.home.homeScreen
+import com.senijoshua.pods.presentation.home.navigation.HomeRoute
+import com.senijoshua.pods.presentation.home.navigation.homeScreen
 
 /**
  * App-level composable for App-level UI components and logic.
