@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.senijoshua.pods.data.repository.PodcastRepository
 import com.senijoshua.pods.presentation.home.model.HomePodcast
-import com.senijoshua.pods.util.Constants
+import com.senijoshua.pods.util.GlobalConstant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,10 +18,10 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val repository: PodcastRepository) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
-    private var page = Constants.INITIAL_PAGE
+    private var page = GlobalConstant.INITIAL_PAGE
 
     fun getPagedPodcasts() {
-        if (page > Constants.INITIAL_PAGE) {
+        if (page > GlobalConstant.INITIAL_PAGE) {
             _uiState.update { currentState ->
                 currentState.copy(isPaging = true)
             }
@@ -54,14 +54,14 @@ class HomeViewModel @Inject constructor(private val repository: PodcastRepositor
     private fun processPodcastData(data: List<HomePodcast>) {
         _uiState.update { currentState ->
             val updatedPodcasts =
-                if (page == Constants.INITIAL_PAGE) data else currentState.podcasts + data
+                if (page == GlobalConstant.INITIAL_PAGE) data else currentState.podcasts + data
 
             currentState.copy(
                 podcasts = updatedPodcasts,
                 isLoading = false,
                 isRefreshing = false,
                 isPaging = false,
-                hasPagedData = data.size == Constants.MAX_PODCASTS_PER_PAGE,
+                hasPagedData = data.size == GlobalConstant.MAX_PODCASTS_PER_PAGE,
                 errorMessage = null
             ).also {
                 if (it.hasPagedData) page++
@@ -70,7 +70,7 @@ class HomeViewModel @Inject constructor(private val repository: PodcastRepositor
     }
 
     fun refreshPagedPodcasts() {
-        page = Constants.INITIAL_PAGE
+        page = GlobalConstant.INITIAL_PAGE
         _uiState.update { currentState ->
             currentState.copy(
                 isRefreshing = true,

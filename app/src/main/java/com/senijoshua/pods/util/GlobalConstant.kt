@@ -3,7 +3,7 @@ package com.senijoshua.pods.util
 /**
  * App-level constants
  */
-object Constants {
+object GlobalConstant {
     /**
      * Initial page of Podcast data to be loaded
      */

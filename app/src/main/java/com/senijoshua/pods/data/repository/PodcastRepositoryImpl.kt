@@ -2,7 +2,7 @@ package com.senijoshua.pods.data.repository
 
 import com.senijoshua.pods.data.local.PodcastDao
 import com.senijoshua.pods.data.remote.PodcastApi
-import com.senijoshua.pods.util.Constants
+import com.senijoshua.pods.util.GlobalConstant
 import com.senijoshua.pods.data.util.asResult
 import com.senijoshua.pods.data.util.toHomePodcast
 import com.senijoshua.pods.data.util.toLocal
@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -35,15 +34,15 @@ class PodcastRepositoryImpl @Inject constructor(
      * more data from the Podcasts table if present and barring that, the remote service.
      */
     override suspend fun getPodcasts(page: Int): Flow<Result<List<HomePodcast>>> {
-        val offset = (page - Constants.INITIAL_PAGE) * Constants.MAX_PODCASTS_PER_PAGE
+        val offset = (page - GlobalConstant.INITIAL_PAGE) * GlobalConstant.MAX_PODCASTS_PER_PAGE
 
-        return local.getAllPodcasts(limit = Constants.MAX_PODCASTS_PER_PAGE, offset = offset)
+        return local.getAllPodcasts(limit = GlobalConstant.MAX_PODCASTS_PER_PAGE, offset = offset)
             .map { podcastEntities ->  podcastEntities.toHomePodcast() }
             .onEach { homePodcasts ->
                 if (homePodcasts.isEmpty()) {
                     val remotePodcasts = remote.getBestPodcasts(page)
 
-                    if (page == Constants.INITIAL_PAGE && local.getNumberOfPodcasts() != 0) {
+                    if (page == GlobalConstant.INITIAL_PAGE && local.getNumberOfPodcasts() != 0) {
                         local.clearPodcasts()
                     }
 
