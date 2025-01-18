@@ -10,6 +10,5 @@ import kotlinx.coroutines.flow.Flow
  */
 interface PodcastRepository {
     suspend fun getPodcasts(page: Int): Flow<Result<List<HomePodcast>>>
-    suspend fun refreshPodcasts(page: Int): Flow<Result<List<HomePodcast>>>
     suspend fun getPodcastGivenId(podcastId: String): Result<DetailPodcast>
 }

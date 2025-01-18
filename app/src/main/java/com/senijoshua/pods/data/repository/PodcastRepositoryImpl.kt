@@ -54,14 +54,6 @@ class PodcastRepositoryImpl @Inject constructor(
             .asResult()
     }
 
-    override suspend fun refreshPodcasts(page: Int): Flow<Result<List<HomePodcast>>> {
-        withContext(dispatcher) {
-            local.clearPodcasts()
-        }
-
-        return getPodcasts(page)
-    }
-
     override suspend fun getPodcastGivenId(podcastId: String): Result<DetailPodcast> {
         TODO("Not yet implemented")
     }
