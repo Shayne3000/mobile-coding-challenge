@@ -13,12 +13,15 @@ interface PodcastDao {
     @Upsert
     suspend fun insertPodcasts(podcasts: List<PodcastEntity>)
 
-    @Query("SELECT * FROM podcasts")
-    fun getAllPodcasts(): Flow<PodcastEntity>
+    @Query("SELECT * FROM podcasts LIMIT :limit OFFSET :offset")
+    fun getAllPodcasts(limit: Int, offset: Int): Flow<List<PodcastEntity>>
 
     @Query("SELECT * FROM podcasts WHERE id = :podcastId")
     fun getPodcastGivenId(podcastId: String): PodcastEntity
 
+    @Query("SELECT COUNT(*) FROM podcasts")
+    suspend fun getNumberOfPodcasts(): Int
+
     @Query("DELETE FROM podcasts")
-    fun clearPodcasts()
+    suspend fun clearPodcasts()
 }
