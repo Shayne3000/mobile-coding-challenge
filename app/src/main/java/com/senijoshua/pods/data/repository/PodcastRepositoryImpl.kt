@@ -35,7 +35,7 @@ class PodcastRepositoryImpl @Inject constructor(
      * more data from the Podcasts table if present and barring that, the remote service.
      */
     override suspend fun getPodcasts(page: Int): Flow<Result<List<HomePodcast>>> {
-        val offset = (page - 1) * Constants.MAX_PODCASTS_PER_PAGE
+        val offset = (page - Constants.INITIAL_PAGE) * Constants.MAX_PODCASTS_PER_PAGE
 
         return local.getAllPodcasts(limit = Constants.MAX_PODCASTS_PER_PAGE, offset = offset)
             .map { podcastEntities ->  podcastEntities.toHomePodcast() }
@@ -43,7 +43,7 @@ class PodcastRepositoryImpl @Inject constructor(
                 if (homePodcasts.isEmpty()) {
                     val remotePodcasts = remote.getBestPodcasts(page)
 
-                    if (page == 1 && local.getNumberOfPodcasts() != 0) {
+                    if (page == Constants.INITIAL_PAGE && local.getNumberOfPodcasts() != 0) {
                         local.clearPodcasts()
                     }
 

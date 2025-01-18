@@ -21,7 +21,7 @@ class HomeViewModel @Inject constructor(private val repository: PodcastRepositor
     private var page = Constants.INITIAL_PAGE
 
     fun getPagedPodcasts() {
-        if (page > 1) {
+        if (page > Constants.INITIAL_PAGE) {
             _uiState.update { currentState ->
                 currentState.copy(isPaging = true)
             }
