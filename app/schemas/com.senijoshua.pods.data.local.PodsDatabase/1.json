@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d083ca739db3d4916b9e76cfeaf504b6",
+    "identityHash": "b884a4007e918f45dbb7b59fa3afe346",
     "entities": [
       {
         "tableName": "podcasts",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `isFavourite` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, `thumbnail` TEXT NOT NULL, `image` TEXT NOT NULL, `publisher` TEXT NOT NULL, `description` TEXT NOT NULL, `is_favourite` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,8 +15,38 @@
             "notNull": true
           },
           {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "thumbnail",
+            "columnName": "thumbnail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "publisher",
+            "columnName": "publisher",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "isFavourite",
-            "columnName": "isFavourite",
+            "columnName": "is_favourite",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -34,7 +64,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd083ca739db3d4916b9e76cfeaf504b6')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b884a4007e918f45dbb7b59fa3afe346')"
     ]
   }
 }

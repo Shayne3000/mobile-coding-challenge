@@ -33,7 +33,7 @@ fun PodsProgressIndicator(modifier: Modifier = Modifier, size: Dp) {
             modifier = Modifier
                 .testTag(PROGRESS_TAG)
                 .size(size),
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.onPrimary
         )
     }
 }

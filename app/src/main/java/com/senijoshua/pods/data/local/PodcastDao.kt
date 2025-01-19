@@ -17,7 +17,10 @@ interface PodcastDao {
     fun getAllPodcasts(limit: Int, offset: Int): Flow<List<PodcastEntity>>
 
     @Query("SELECT * FROM podcasts WHERE id = :podcastId")
-    fun getPodcastGivenId(podcastId: String): PodcastEntity
+    fun getPodcastGivenId(podcastId: String): Flow<PodcastEntity>
+
+    @Query("UPDATE podcasts SET is_favourite = CASE WHEN is_favourite = 1 THEN 0 ELSE 1 END WHERE id = :podcastId")
+    suspend fun favouritePodcast(podcastId: String)
 
     @Query("SELECT COUNT(*) FROM podcasts")
     suspend fun getNumberOfPodcasts(): Int

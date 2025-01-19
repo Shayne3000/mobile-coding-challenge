@@ -22,6 +22,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.senijoshua.pods.R
 import com.senijoshua.pods.presentation.theme.PodsTheme
 
+/**
+ * Component for when there is/are no podcast(s)
+ * on successful return for use in screens.
+ */
 @Composable
 fun PodsEmptyScreen(
     modifier: Modifier = Modifier,

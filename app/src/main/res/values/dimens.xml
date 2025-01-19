@@ -19,6 +19,6 @@
     <dimen name="progress_size_medium">36dp</dimen>
     <dimen name="progress_size_large">64dp</dimen>
     <dimen name="avatar_size_medium">84dp</dimen>
-    <dimen name="avatar_size_large">148dp</dimen>
+    <dimen name="avatar_size_large">192dp</dimen>
     <dimen name="divider_height">1dp</dimen>
 </resources>

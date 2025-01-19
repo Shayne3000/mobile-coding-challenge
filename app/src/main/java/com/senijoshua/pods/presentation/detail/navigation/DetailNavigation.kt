@@ -1,7 +1,8 @@
-package com.senijoshua.pods.presentation.detail
+package com.senijoshua.pods.presentation.detail.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.senijoshua.pods.presentation.detail.ui.DetailScreen
 import kotlinx.serialization.Serializable
 
 /**
@@ -16,6 +17,8 @@ data class DetailRoute(val podcastId: String)
  */
 fun NavGraphBuilder.detailScreen(onBackClicked: () -> Unit) {
     composable<DetailRoute> {
-       // TODO Add Detail Screen composable
+       DetailScreen(onBackClicked = {
+           onBackClicked()
+       })
     }
 }
