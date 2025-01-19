@@ -5,7 +5,15 @@
     <string name="refresh_text">Retuning your podcasts&#8230;</string>
     <string name="podcast_item_thumbnail_content_desc">Podcast thumbnail</string>
     <string name="favourited_podcast_item">Favourited</string>
-    <!-- Empty screen -->
+    <!-- Home Empty screen -->
     <string name="empty_podcasts_content_desc">Empty list of podcasts</string>
     <string name="empty_podcasts_text">There are no podcasts at this time, check back in a bit.</string>
+    <!-- Detail Screen -->
+    <string name="back_content_desc">Navigate back</string>
+    <string name="detail_podcast_img_content_desc">Podcast Image</string>
+    <string name="favourite_btn_text">Favourite</string>
+    <string name="favourited_btn_text">Favourited</string>
+    <!-- Detail Empty Screen -->
+    <string name="no_podcast_content_desc">No podcast detail</string>
+    <string name="no_podcast_detail_text">This podcast has no content at this time, please check back later.</string>
 </resources>

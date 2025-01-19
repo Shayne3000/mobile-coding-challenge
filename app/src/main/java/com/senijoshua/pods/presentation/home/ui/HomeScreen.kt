@@ -63,7 +63,7 @@ fun HomeScreen(
         refresh = {
             vm.refreshPagedPodcasts()
         },
-        resetErrorState = {
+        errorShown = {
             vm.onResetErrorState()
         },
         navigateToDetail = { podcastId ->
@@ -82,7 +82,7 @@ fun HomeContent(
     uiState: HomeUiState,
     loadNextPage: () -> Unit = {},
     refresh: () -> Unit = {},
-    resetErrorState: () -> Unit = {},
+    errorShown: () -> Unit = {},
     navigateToDetail: (String) -> Unit = {},
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
@@ -157,7 +157,7 @@ fun HomeContent(
                         })
                 } else {
                     PodsEmptyScreen(
-                        modifier,
+                        Modifier.padding(horizontal = dimensionResource(R.dimen.padding_medium)),
                         text = R.string.empty_podcasts_text,
                         iconContentDescription = R.string.empty_podcasts_content_desc
                     )
@@ -167,9 +167,9 @@ fun HomeContent(
     }
 
     uiState.errorMessage?.let { message ->
-        LaunchedEffect(message, snackBarHostState) {
+        LaunchedEffect(message) {
             snackBarHostState.showSnackbar(message)
-            resetErrorState()
+            errorShown()
         }
     }
 }
@@ -213,9 +213,10 @@ fun HomePodcastList(
             lastVisibleItemIndex >= totalItemsCount - 2 && totalItemsCount > 0
         }
     }
-
-    if (hasScrolledNearEnd && !isPaging && hasPagedData) {
-        loadNextPage()
+    LaunchedEffect(hasScrolledNearEnd) {
+        if (hasScrolledNearEnd && !isPaging && hasPagedData) {
+            loadNextPage()
+        }
     }
 
     LazyColumn(
@@ -249,6 +250,9 @@ fun HomePodcastList(
 @Composable
 private fun HomePreview() {
     PodsTheme {
-        HomeContent(uiState = HomeUiState(podcasts = fakePodcastList))
+        HomeContent(uiState = HomeUiState(
+            isLoading = false,
+            podcasts = fakePodcastList
+        ))
     }
 }

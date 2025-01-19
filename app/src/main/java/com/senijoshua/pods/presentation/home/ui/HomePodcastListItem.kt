@@ -2,19 +2,17 @@ package com.senijoshua.pods.presentation.home.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -40,10 +38,10 @@ fun HomePodcastListItem(
     podcast: HomePodcast,
     onClick: (String) -> Unit = {}
 ) {
-    Box(
+    Column(
         modifier = modifier
             .fillMaxWidth()
-            .height(dimensionResource(R.dimen.list_item_height))
+            .wrapContentHeight()
             .background(color = MaterialTheme.colorScheme.primaryContainer)
             .clickable(onClick = {
                 onClick(podcast.id)
@@ -51,8 +49,9 @@ fun HomePodcastListItem(
     ) {
         Row(
             modifier = Modifier
-                .padding(start = dimensionResource(R.dimen.padding_small))
-                .align(Alignment.CenterStart)
+                .padding(
+                    top = dimensionResource(R.dimen.padding_medium),
+                    start = dimensionResource(R.dimen.padding_medium))
         ) {
             val imageRequest = buildAsyncImage(podcast.thumbnail)
 
@@ -67,11 +66,11 @@ fun HomePodcastListItem(
 
             Column(
                 modifier = Modifier.padding(
-                    start = dimensionResource(R.dimen.padding_small)
+                    start = dimensionResource(R.dimen.padding_medium)
                 ),
             ) {
                 Text(
-                    modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_xsmall)),
+                    modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_small)),
                     text = podcast.title,
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.Bold,
@@ -81,7 +80,7 @@ fun HomePodcastListItem(
                 )
 
                 Text(
-                    modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_xsmall)),
+                    modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_small)),
                     text = podcast.publisher,
                     style = MaterialTheme.typography.bodyMedium,
                     fontStyle = FontStyle.Italic,
@@ -92,7 +91,7 @@ fun HomePodcastListItem(
 
                 if (podcast.isFavourite) {
                     Text(
-                        modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_xsmall)),
+                        modifier = Modifier.padding(top = dimensionResource(R.dimen.padding_small)),
                         text = stringResource(R.string.favourited_podcast_item),
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.bodyMedium,
@@ -104,10 +103,12 @@ fun HomePodcastListItem(
 
         HorizontalDivider(
             modifier = Modifier
-                .padding(start = dimensionResource(R.dimen.padding_medium))
-                .align(Alignment.BottomCenter),
+                .padding(
+                    top = dimensionResource(R.dimen.padding_medium),
+                    start = dimensionResource(R.dimen.padding_medium)
+                ),
             thickness = dimensionResource(R.dimen.divider_height),
-            color = MaterialTheme.colorScheme.onTertiaryContainer,
+            color = MaterialTheme.colorScheme.onSurface,
         )
     }
 }

@@ -17,7 +17,7 @@ val secondaryContainerLight = Color(0xFFDD2A4F)
 val onSecondaryContainerLight = Color(0xFFFFFFFF)
 
 // List item alternative
-val onTertiaryContainerLight = Color(0xFFC6C6C7)
+val onTertiaryContainerLight = Color(0xFF8E9192)
 
 // Screen background
 val backgroundLight = Color(0xFFFFFBFF)
@@ -26,6 +26,9 @@ val onBackgroundLight = Color(0xFF201A19)
 // Error snack
 val errorLight = Color(0xFFBA1A1A)
 val onErrorLight = Color(0xFFFFFFFF)
+
+// Divider
+val onSurfaceLight = Color(0xFFC6C6C7)
 
 //// Dark mode colors ////
 
@@ -46,6 +49,7 @@ val onBackgroundDark = Color(0xFFEDE0DE)
 val errorDark = Color(0xFFFFB4AB)
 val onErrorDark = Color(0xFF690005)
 
+val onSurfaceDark = Color(0xFF5D5F5F)
 
 //// Agnostic ////
 val onSurfaceVariant = Color(0xFFDD2A4F)
