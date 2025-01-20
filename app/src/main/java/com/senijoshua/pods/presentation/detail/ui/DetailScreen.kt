@@ -244,6 +244,7 @@ fun PodcastDetail(
                     end = dimensionResource(R.dimen.padding_medium)
                 ),
             text = podcastDetail.description,
+            color = MaterialTheme.colorScheme.onTertiaryContainer,
             style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
         )
