@@ -1,4 +1,4 @@
-package com.senijoshua.pods.data.local
+package com.senijoshua.pods.data.local.podcast
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -9,8 +9,9 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "podcasts")
 data class PodcastEntity(
-    @PrimaryKey
-    val id: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val podcastId: String,
     val title: String,
     val thumbnail: String,
     val image: String,
