@@ -69,14 +69,20 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.navigation)
 
-    // Room
+    // Room //
     implementation(libs.room)
     ksp(libs.room.compiler)
     // Kotlin Extensions and Coroutines support for Room
     implementation(libs.room.ktx)
+    // Paging support for Room
+    implementation(libs.room.paging)
 
     // Coil
     implementation(libs.coil)
+
+    // Paging
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
 
     // Retrofit
     implementation(libs.retrofit)
@@ -100,6 +106,7 @@ dependencies {
     testImplementation(libs.hilt.android.testing)
     kspTest(libs.hilt.compiler)
     testImplementation(libs.room.testing)
+    testImplementation(libs.paging.test)
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(libs.junit)
     debugImplementation(libs.compose.ui.tooling)
