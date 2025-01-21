@@ -1,5 +1,9 @@
 package com.senijoshua.pods.presentation.home.model
 
+import androidx.paging.PagingData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+
 /**
  * Representation of an Podcast type with data specific to the home screen.
  */
@@ -23,3 +27,9 @@ val fakePodcastList = List(10) { index ->
         index % 2 == 0,
     )
 }
+
+/**
+ * "Paged" dummy podcast data for preview and testing purposes.
+ */
+val fakePagedPodcastList: Flow<PagingData<HomePodcast>> =
+    flowOf(PagingData.from(fakePodcastList))

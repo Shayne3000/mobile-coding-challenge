@@ -4,15 +4,14 @@ package com.senijoshua.pods.presentation.home.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,8 +26,6 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,14 +35,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.senijoshua.pods.R
 import com.senijoshua.pods.presentation.components.PodsEmptyScreen
 import com.senijoshua.pods.presentation.components.PodsProgressIndicator
-import com.senijoshua.pods.presentation.home.stateholder.HomeUiState
-import com.senijoshua.pods.presentation.home.stateholder.HomeViewModel
 import com.senijoshua.pods.presentation.home.model.HomePodcast
-import com.senijoshua.pods.presentation.home.model.fakePodcastList
+import com.senijoshua.pods.presentation.home.model.fakePagedPodcastList
+import com.senijoshua.pods.presentation.home.stateholder.HomeViewModel
 import com.senijoshua.pods.presentation.theme.PodsTheme
 
 @Composable
@@ -53,36 +51,20 @@ fun HomeScreen(
     vm: HomeViewModel = hiltViewModel(),
     onNavigateToDetail: (String) -> Unit,
 ) {
-    val uiState by vm.uiState.collectAsStateWithLifecycle()
+    val podcasts = vm.pagedPodcasts.collectAsLazyPagingItems()
 
     HomeContent(
-        uiState = uiState,
-        loadNextPage = {
-            vm.getPagedPodcasts()
-        },
-        refresh = {
-            vm.refreshPagedPodcasts()
-        },
-        errorShown = {
-            vm.onResetErrorState()
-        },
+        pagedPodcasts = podcasts,
         navigateToDetail = { podcastId ->
             onNavigateToDetail(podcastId)
         }
     )
-
-    LaunchedEffect(Unit) {
-        vm.getPagedPodcasts()
-    }
 }
 
 @Composable
 fun HomeContent(
     modifier: Modifier = Modifier,
-    uiState: HomeUiState,
-    loadNextPage: () -> Unit = {},
-    refresh: () -> Unit = {},
-    errorShown: () -> Unit = {},
+    pagedPodcasts: LazyPagingItems<HomePodcast>,
     navigateToDetail: (String) -> Unit = {},
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
@@ -115,17 +97,16 @@ fun HomeContent(
             modifier = modifier
                 .fillMaxSize()
                 .padding(padding),
-            isRefreshing = uiState.isRefreshing,
+            isRefreshing = pagedPodcasts.loadState.refresh is LoadState.Loading && pagedPodcasts.itemCount != 0,
             state = pullToRefreshState,
             onRefresh = {
-                refresh()
+                pagedPodcasts.refresh()
             },
             indicator = {
                 Indicator(
                     modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .padding(top = dimensionResource(R.dimen.padding_xlarge)),
-                    isRefreshing = uiState.isRefreshing,
+                        .align(Alignment.TopCenter),
+                    isRefreshing = pagedPodcasts.loadState.refresh is LoadState.Loading && pagedPodcasts.itemCount != 0,
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     state = pullToRefreshState
@@ -137,111 +118,128 @@ fun HomeContent(
                     .fillMaxSize()
                     .background(color = MaterialTheme.colorScheme.background)
             ) {
-                if (uiState.isLoading) {
+                if (pagedPodcasts.loadState.refresh is LoadState.Loading && pagedPodcasts.itemCount == 0) {
                     PodsProgressIndicator(
                         modifier = modifier,
                         size = dimensionResource(R.dimen.progress_size_large)
                     )
-                } else if (uiState.isRefreshing) {
-                    RefreshText(modifier)
-                } else if (uiState.podcasts.isNotEmpty()) {
-                    HomePodcastList(
-                        podcasts = uiState.podcasts,
-                        isPaging = uiState.isPaging,
-                        hasPagedData = uiState.hasPagedData,
-                        loadNextPage = {
-                            loadNextPage()
-                        },
-                        onPodcastItemClicked = { podcastId ->
-                            navigateToDetail(podcastId)
-                        })
-                } else {
+                } else if ((pagedPodcasts.loadState.refresh is LoadState.Error) ||
+                    ((pagedPodcasts.loadState.refresh is LoadState.NotLoading)) &&
+                    pagedPodcasts.itemCount == 0
+                ) {
                     PodsEmptyScreen(
                         Modifier.padding(horizontal = dimensionResource(R.dimen.padding_medium)),
                         text = R.string.empty_podcasts_text,
                         iconContentDescription = R.string.empty_podcasts_content_desc
+                    )
+                } else {
+                    HomePodcastList(
+                        podcasts = pagedPodcasts,
+                        onPodcastClicked = { podcastId ->
+                            navigateToDetail(podcastId)
+                        }
                     )
                 }
             }
         }
     }
 
-    uiState.errorMessage?.let { message ->
-        LaunchedEffect(message) {
-            snackBarHostState.showSnackbar(message)
-            errorShown()
-        }
-    }
-}
+    if (pagedPodcasts.loadState.refresh is LoadState.Error) {
+        val refreshError = pagedPodcasts.loadState.refresh as LoadState.Error
+        val errorMessage = refreshError.error.message
 
-@Composable
-fun RefreshText(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = stringResource(id = R.string.refresh_text),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onBackground,
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 1,
-            textAlign = TextAlign.Center
-        )
+        errorMessage?.let { message ->
+            LaunchedEffect(message) {
+                snackBarHostState.showSnackbar(message)
+            }
+        }
     }
 }
 
 @Composable
 fun HomePodcastList(
     modifier: Modifier = Modifier,
-    podcasts: List<HomePodcast>,
-    isPaging: Boolean,
-    hasPagedData: Boolean,
-    loadNextPage: () -> Unit = {},
-    onPodcastItemClicked: (String) -> Unit = {},
+    podcasts: LazyPagingItems<HomePodcast>,
+    onPodcastClicked: (String) -> Unit = {},
 ) {
-    val listState = rememberLazyListState()
-
-    val hasScrolledNearEnd by remember {
-        derivedStateOf {
-            val lastVisibleItemIndex =
-                listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: -1
-            val totalItemsCount = listState.layoutInfo.totalItemsCount
-            lastVisibleItemIndex >= totalItemsCount - 2 && totalItemsCount > 0
-        }
-    }
-    LaunchedEffect(hasScrolledNearEnd) {
-        if (hasScrolledNearEnd && !isPaging && hasPagedData) {
-            loadNextPage()
-        }
-    }
-
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(vertical = dimensionResource(id = R.dimen.padding_small)),
     ) {
-        items(items = podcasts, key = { podcast -> podcast.id }) { podcast ->
-            HomePodcastListItem(podcast = podcast, onClick = { podcastId ->
-                onPodcastItemClicked(podcastId)
-            })
+        items(podcasts.itemCount) { index ->
+            val homePodcast = podcasts[index]
+            homePodcast?.let { podcast ->
+                HomePodcastListItem(podcast = podcast, onClick = { podcastId ->
+                    onPodcastClicked(podcastId)
+                })
+            }
         }
 
-        if (isPaging) {
-            item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(dimensionResource(R.dimen.padding_medium)),
-                    contentAlignment = Alignment.Center
-                ) {
+        when (podcasts.loadState.append) {
+            is LoadState.Loading -> {
+                item {
                     PodsProgressIndicator(
+                        modifier = modifier,
                         size = dimensionResource(R.dimen.progress_size_medium)
                     )
                 }
             }
+
+            is LoadState.Error -> {
+                item {
+                    AppendErrorItem(
+                        podcasts = podcasts
+                    )
+                }
+            }
+
+            else -> {
+                // No Op
+            }
+        }
+    }
+}
+
+@Composable
+private fun AppendErrorItem(
+    modifier: Modifier = Modifier,
+    podcasts: LazyPagingItems<HomePodcast>,
+) {
+    val appendError = podcasts.loadState.append as LoadState.Error
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.background)
+            .fillMaxWidth()
+            .padding(
+                dimensionResource(R.dimen.padding_small)
+            )
+    ) {
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = dimensionResource(R.dimen.padding_small)),
+            text = appendError.error.localizedMessage!!,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onPrimary,
+            textAlign = TextAlign.Center,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 2
+        )
+        Button(
+            shape = RoundedCornerShape(dimensionResource(R.dimen.padding_small)),
+            onClick = {
+                podcasts.retry()
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+        ) {
+            Text(
+                text = stringResource(R.string.retry_podcast_list_append),
+            )
         }
     }
 }
@@ -250,9 +248,6 @@ fun HomePodcastList(
 @Composable
 private fun HomePreview() {
     PodsTheme {
-        HomeContent(uiState = HomeUiState(
-            isLoading = false,
-            podcasts = fakePodcastList
-        ))
+        HomeContent(pagedPodcasts = fakePagedPodcastList.collectAsLazyPagingItems())
     }
 }

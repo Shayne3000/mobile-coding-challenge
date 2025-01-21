@@ -2,7 +2,6 @@
 
 package com.senijoshua.pods.presentation.detail.ui
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -89,12 +88,6 @@ fun DetailContent(
     backClicked: () -> Unit = {},
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
-
-    BackHandler(
-        onBack = {
-            backClicked()
-        }
-    )
 
     Scaffold(topBar = {
         TopAppBar(
