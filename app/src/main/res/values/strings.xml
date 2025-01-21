@@ -5,9 +5,10 @@
     <string name="refresh_text">Retuning your podcasts&#8230;</string>
     <string name="podcast_item_thumbnail_content_desc">Podcast thumbnail</string>
     <string name="favourited_podcast_item">Favourited</string>
+    <string name="retry_podcast_list_append">Retry</string>
     <!-- Home Empty screen -->
     <string name="empty_podcasts_content_desc">Empty list of podcasts</string>
-    <string name="empty_podcasts_text">There are no podcasts at this time, check back in a bit.</string>
+    <string name="empty_podcasts_text">There are no podcasts at this time, please check your internet connection and try again later.</string>
     <!-- Detail Screen -->
     <string name="back_content_desc">Navigate back</string>
     <string name="detail_podcast_img_content_desc">Podcast Image</string>

@@ -11,7 +11,7 @@ import dagger.hilt.android.HiltAndroidApp
 class PodsApp : Application(), ImageLoaderFactory {
 
     /**
-     * Setup a global image loader with specifics for memory and disk caching
+     * Global image loader override with specifics for memory and disk caching
      * that disables respecting potential caching directives sent from remote
      * image servers via cache-control headers.
      */

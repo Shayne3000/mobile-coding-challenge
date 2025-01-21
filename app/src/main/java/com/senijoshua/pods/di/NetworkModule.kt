@@ -16,6 +16,9 @@ import javax.inject.Singleton
 
 private const val BASE_URL = "https://listen-api-test.listennotes.com/api/v2/"
 
+/**
+ * Hilt module for provisioning network-specific elements for injection.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {

@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 val Typography = Typography(
-    // Toolbar style and Header title in detail screen
+    // Toolbar style and Header title
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
@@ -16,7 +16,7 @@ val Typography = Typography(
         lineHeight = 28.sp
     ),
 
-    // Podcast card title
+    // List item title
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
@@ -25,7 +25,7 @@ val Typography = Typography(
         letterSpacing = 0.25.sp
     ),
 
-    // Author and Favourited text with favourited having italics as its style and detail screen text
+    // List item auxiliary content i.e. Author & Favourited
     bodyMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
@@ -34,11 +34,11 @@ val Typography = Typography(
         letterSpacing = 0.25.sp
     ),
 
-    // Button text
+    // Button
     labelMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Light,
-        fontStyle = FontStyle.Italic,
+        fontStyle = FontStyle.Normal,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.5.sp

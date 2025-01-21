@@ -6,6 +6,10 @@ import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.senijoshua.pods.R
 
+/**
+ * Encapsulation for the specifics required for loading images into
+ * a Coil AsyncImage composable.
+ */
 @Composable
 fun buildAsyncImage(imageUrl: String) = ImageRequest.Builder(LocalContext.current)
     .data(imageUrl)

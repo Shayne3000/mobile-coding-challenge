@@ -4,7 +4,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 /**
- * Interface for interacting with the remote service
+ * Abstraction for interacting with the remote service
  */
 interface PodcastApi {
     @GET("best_podcasts")

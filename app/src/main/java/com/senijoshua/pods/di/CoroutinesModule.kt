@@ -7,6 +7,9 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
+/**
+ * Hilt module for provisioning [CoroutineDispatcher]s for injection.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object CoroutinesModule {
