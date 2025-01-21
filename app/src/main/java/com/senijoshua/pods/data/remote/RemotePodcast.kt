@@ -5,9 +5,6 @@ import kotlinx.serialization.Serializable
 
 /**
  * Response model for the getBestPodcasts endpoint.
- *
- * NB: This represents how the response model would look
- * in a non-dummy endpoint scenario.
  */
 @Serializable
 data class PodcastsResponse(
