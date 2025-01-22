@@ -1,6 +1,11 @@
 package com.senijoshua.pods.presentation.detail.ui
 
 import androidx.activity.ComponentActivity
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
@@ -8,6 +13,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import com.senijoshua.pods.R
 import com.senijoshua.pods.presentation.components.PROGRESS_TAG
 import com.senijoshua.pods.presentation.detail.model.fakeDetailPodcastArticle
@@ -27,7 +33,7 @@ class DetailContentTest {
 
     private lateinit var imageContentDescription: String
     private lateinit var backIconContentDesc: String
-    private lateinit var noPodcastTest: String
+    private lateinit var noPodcastText: String
     private lateinit var noPodcastContentDesc: String
     private lateinit var favouriteText: String
 
@@ -35,7 +41,7 @@ class DetailContentTest {
     fun setUp() {
         imageContentDescription =
             composeTestRule.activity.getString(R.string.detail_podcast_img_content_desc)
-        noPodcastTest = composeTestRule.activity.getString(R.string.no_podcast_detail_text)
+        noPodcastText = composeTestRule.activity.getString(R.string.no_podcast_detail_text)
         noPodcastContentDesc = composeTestRule.activity.getString(R.string.no_podcast_content_desc)
         backIconContentDesc = composeTestRule.activity.getString(R.string.back_content_desc)
         favouriteText = composeTestRule.activity.getString(R.string.favourite_btn_text)
@@ -59,7 +65,7 @@ class DetailContentTest {
         composeTestRule.onNodeWithContentDescription(backIconContentDesc).assertIsDisplayed()
         composeTestRule.onNodeWithTag(PROGRESS_TAG).assertDoesNotExist()
         composeTestRule.onNodeWithText(errorMessage).assertIsDisplayed()
-        composeTestRule.onNodeWithText(noPodcastTest).assertIsDisplayed()
+        composeTestRule.onNodeWithText(noPodcastText).assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription(noPodcastContentDesc).assertIsDisplayed()
         composeTestRule.onNodeWithText(fakeDetailPodcastArticle.title).assertDoesNotExist()
         composeTestRule.onNodeWithText(fakeDetailPodcastArticle.description).assertDoesNotExist()

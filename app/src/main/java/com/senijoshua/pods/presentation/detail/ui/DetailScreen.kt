@@ -119,7 +119,6 @@ fun DetailContent(
                 .fillMaxSize()
                 .background(color = MaterialTheme.colorScheme.background)
                 .padding(padding)
-                .verticalScroll(rememberScrollState())
         ) {
             if (uiState.isLoading) {
                 PodsProgressIndicator(
