@@ -19,7 +19,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.senijoshua.pods.util.HiltTestRunner"
     }
 
     buildTypes {
@@ -101,10 +101,15 @@ dependencies {
 
     //// Test dependencies ////
 
+    // Shared test components
+    testImplementation(project(":shared-test"))
+    androidTestImplementation(project(":shared-test"))
+
     // Local tests
     testImplementation(libs.coil.testing)
     testImplementation(libs.hilt.android.testing)
     kspTest(libs.hilt.compiler)
+    testImplementation(libs.mockk)
     testImplementation(libs.room.testing)
     testImplementation(libs.paging.test)
     testImplementation(libs.kotlin.coroutines.test)
@@ -115,6 +120,7 @@ dependencies {
     // Instrumented tests
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.test.runner)
     kspAndroidTest(libs.hilt.compiler)
     androidTestImplementation(libs.navigation.testing)
     androidTestImplementation(platform(libs.compose.bom))
