@@ -12,6 +12,7 @@ hiltNavigation = "1.2.0"
 ksp = "2.0.0-1.0.23"
 kotlinxSerialization = "2.0.21"
 kotlinxSerializationJson = "1.8.0"
+mockk = "1.13.9"
 navigation = "2.8.5"
 paging = "3.3.5"
 retrofit = "2.11.0"
@@ -85,6 +86,9 @@ paging-test = { group = "androidx.paging", name = "paging-common", version.ref =
 # Coil
 coil-testing = { group = "io.coil-kt", name = "coil-test", version.ref = "coil" }
 
+# Mockk
+mockk = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+
 # Navigation
 navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigation" }
 
@@ -100,10 +104,10 @@ ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinxSerialization"}
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-

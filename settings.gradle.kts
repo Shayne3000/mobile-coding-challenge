@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Pods"
 include(":app")
+include(":shared-test")
