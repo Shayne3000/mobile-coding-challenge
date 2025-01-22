@@ -3,8 +3,8 @@ package com.senijoshua.pods.presentation.detail.stateholder
 import com.senijoshua.pods.presentation.detail.model.fakeDetailPodcastArticle
 import com.senijoshua.pods.presentation.detail.navigation.DetailRoute
 import com.senijoshua.pods.presentation.util.MainDispatcherRule
-import com.senijoshua.pods.presentation.util.SavedStateHandleRule
 import com.senijoshua.shared_test.data.repository.FakePodcastRepositoryImpl
+import com.senijoshua.shared_test.util.SavedStateHandleRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

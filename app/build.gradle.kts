@@ -48,6 +48,10 @@ android {
     buildFeatures {
         buildConfig = true
     }
+
+    packaging {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
@@ -109,7 +113,6 @@ dependencies {
     testImplementation(libs.coil.testing)
     testImplementation(libs.hilt.android.testing)
     kspTest(libs.hilt.compiler)
-    testImplementation(libs.mockk)
     testImplementation(libs.room.testing)
     testImplementation(libs.paging.test)
     testImplementation(libs.kotlin.coroutines.test)

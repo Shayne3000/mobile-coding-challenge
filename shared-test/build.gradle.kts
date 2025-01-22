@@ -30,6 +30,10 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    packaging {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
@@ -41,4 +45,17 @@ dependencies {
 
     // Kotlin Coroutine & Flows
     implementation(libs.kotlin.coroutines)
+
+    // Compose Lifecycle
+    implementation(libs.lifecycle.compose)
+
+    // mockk
+    implementation(libs.mockk)
+    implementation(libs.mockk.agent)
+
+    // Junit
+    implementation(libs.junit)
+
+    // Navigation testing
+    implementation(libs.navigation.testing)
 }
