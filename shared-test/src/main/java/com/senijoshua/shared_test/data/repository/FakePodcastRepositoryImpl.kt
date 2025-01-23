@@ -8,11 +8,12 @@ import com.senijoshua.pods.presentation.home.model.HomePodcast
 import com.senijoshua.pods.presentation.home.model.fakePodcastList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
 /**
  * Fake implementation of the [PodcastRepository] for testing purposes.
  */
-class FakePodcastRepositoryImpl : PodcastRepository {
+class FakePodcastRepositoryImpl @Inject constructor(): PodcastRepository {
     private var podcastStore: Podcast = Podcast(
         id = fakeDetailPodcastArticle.id,
         title = fakeDetailPodcastArticle.title,
@@ -25,8 +26,14 @@ class FakePodcastRepositoryImpl : PodcastRepository {
     var shouldThrowError = false
     var errorText = "Error!"
 
-    override suspend fun getPagedPodcasts(): Flow<PagingData<HomePodcast>> {
-        TODO("Not yet implemented")
+    override suspend fun getPagedPodcasts(): Flow<PagingData<HomePodcast>> = flow {
+        emit(
+            if (shouldThrowError) {
+                PagingData.empty()
+            } else {
+                PagingData.from(fakePodcastList)
+            }
+        )
     }
 
     override suspend fun getPodcastGivenId(podcastId: String): Flow<Result<DetailPodcast>> = flow {

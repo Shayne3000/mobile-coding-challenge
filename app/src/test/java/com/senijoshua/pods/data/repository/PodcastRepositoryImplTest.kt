@@ -55,7 +55,6 @@ class PodcastRepositoryImplTest {
         val homePodcastList = result.asSnapshot()
         assertEquals(expectedList.size, homePodcastList.size)
         assertEquals(expectedList[0].id, homePodcastList[0].id)
-
     }
 
     @Test
