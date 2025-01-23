@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 /**
- * Implementation of the [PodcastRepository] for testing purposes.
+ * Fake implementation of the [PodcastRepository] for testing purposes.
  */
 class FakePodcastRepositoryImpl : PodcastRepository {
     private var podcastStore: Podcast = Podcast(

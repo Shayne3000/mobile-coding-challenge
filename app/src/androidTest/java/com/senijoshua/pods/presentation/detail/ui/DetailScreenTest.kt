@@ -4,11 +4,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import com.senijoshua.pods.R
 import com.senijoshua.pods.presentation.PodsActivity
 import com.senijoshua.pods.presentation.components.PROGRESS_TAG
@@ -30,15 +28,12 @@ import org.junit.Test
  */
 @HiltAndroidTest
 class DetailScreenTest {
-    // Setup Hilt Test rule
     @get:Rule(order = 0)
     var hiltRule = HiltAndroidRule(this)
 
-    // Setup Compose test rule
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<PodsActivity>()
 
-    // Setup SavedStateHandle rule
     @get:Rule(order = 2)
     val savedStateHandleRule = SavedStateHandleRule(DetailRoute(fakeDetailPodcastArticle.id))
 
