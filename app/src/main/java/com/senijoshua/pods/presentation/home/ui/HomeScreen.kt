@@ -29,6 +29,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -49,7 +50,7 @@ import com.senijoshua.pods.presentation.theme.PodsTheme
 @Composable
 fun HomeScreen(
     vm: HomeViewModel = hiltViewModel(),
-    onNavigateToDetail: (String) -> Unit,
+    onNavigateToDetail: (String) -> Unit = {},
 ) {
     val podcasts = vm.pagedPodcasts.collectAsLazyPagingItems()
 
@@ -163,7 +164,7 @@ fun HomePodcastList(
     onPodcastClicked: (String) -> Unit = {},
 ) {
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.testTag(LIST_TAG),
     ) {
         items(podcasts.itemCount) { index ->
             val homePodcast = podcasts[index]
@@ -183,7 +184,6 @@ fun HomePodcastList(
                     )
                 }
             }
-
             is LoadState.Error -> {
                 item {
                     AppendErrorItem(
@@ -191,7 +191,6 @@ fun HomePodcastList(
                     )
                 }
             }
-
             else -> {
                 // No Op
             }
@@ -243,6 +242,8 @@ private fun AppendErrorItem(
         }
     }
 }
+
+const val LIST_TAG = "HomePodcastList"
 
 @PreviewLightDark
 @Composable
